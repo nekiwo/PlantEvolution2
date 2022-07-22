@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class SunController : MonoBehaviour
 {
-    private void Start() {
+    void Start() {
         for (float deg = 0; deg < 360; deg += 360 / Main.RayCount) {
             float rayRange = Main.RayRange;
 
             Vector2 target = new Vector2(
-                Mathf.Cos(deg * Mathf.Deg2Rad) * rayRange,
-                Mathf.Sin(deg * Mathf.Deg2Rad) * rayRange
-            );
+                Mathf.Cos(deg * Mathf.Deg2Rad),
+                Mathf.Sin(deg * Mathf.Deg2Rad)
+            ) * rayRange;
 
             ShootRay(transform.position, target, rayRange, null, 0);
         }
@@ -19,15 +19,15 @@ public class SunController : MonoBehaviour
 
     private void ShootRay(Vector2 start, Vector2 dir, float range, GameObject ignoreWall, int bounces)
     {
-        RaycastHit2D hit = Physics2D.Raycast(start, dir, range, 1 << 6);
+        RaycastHit2D hit = Physics2D.Raycast(start, dir, range, 1 << 0);
         if (ignoreWall != null)
         {
-            ignoreWall.layer = 6;
+            ignoreWall.layer = 0;
         }
 
         if (hit.collider != null)
         {
-            Debug.DrawRay(start, hit.point - start, Color.yellow, 100);
+            //Debug.DrawRay(start, hit.point - start, Color.yellow, 100);
             //Debug.DrawRay(hit.point, hit.normal, Color.blue, 100);
 
             if (hit.collider.tag == "plant")
@@ -41,7 +41,7 @@ public class SunController : MonoBehaviour
                 {
                     bounces++;
 
-                    hit.collider.gameObject.layer = 7;
+                    hit.collider.gameObject.layer = 2;
 
                     Vector2 reflectedRay = ReflectRay(hit.point - start, hit.normal, range);
                     ShootRay(hit.point, reflectedRay, range, hit.collider.gameObject, bounces);
@@ -50,7 +50,7 @@ public class SunController : MonoBehaviour
         }
         else
         {
-            Debug.DrawRay(start, dir, Color.red, 100);
+            //Debug.DrawRay(start, dir, Color.red, 100);
         }
     }
 
