@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlantController : MonoBehaviour
 {
     public GameObject BranchTemplate;
+    public GameObject sun;
 
     public class Branch
     {
@@ -45,7 +46,7 @@ public class PlantController : MonoBehaviour
         GameObject branchCopy = GameObject.Instantiate(BranchTemplate);
         branchCopy.transform.position = main.start + (main.end - main.start) / 2;
         branchCopy.transform.eulerAngles = new Vector3(0, 0,
-            Mathf.Rad2Deg * Mathf.Atan(
+            Mathf.Rad2Deg * -Mathf.Atan(
                 (main.end.x - main.start.x) /
                 (main.end.y - main.start.y)
             )

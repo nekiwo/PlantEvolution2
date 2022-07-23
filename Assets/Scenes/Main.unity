@@ -257,6 +257,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seed: {fileID: 1949133524}
+  sun: {fileID: 922702484}
 --- !u!1 &565164131
 GameObject:
   m_ObjectHideFlags: 0
@@ -1007,6 +1008,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BranchTemplate: {fileID: 1981303065}
+  sun: {fileID: 922702484}
 --- !u!1 &1981303065
 GameObject:
   m_ObjectHideFlags: 0

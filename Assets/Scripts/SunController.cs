@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class SunController : MonoBehaviour
 {
-    void Start() {
+    public void RayTrace() 
+    {
         for (float deg = 0; deg < 360; deg += 360 / Main.RayCount) {
             float rayRange = Main.RayRange;
 
@@ -27,12 +28,13 @@ public class SunController : MonoBehaviour
 
         if (hit.collider != null)
         {
-            //Debug.DrawRay(start, hit.point - start, Color.yellow, 100);
+            Debug.DrawRay(start, hit.point - start, Color.yellow, 100);
             //Debug.DrawRay(hit.point, hit.normal, Color.blue, 100);
 
             if (hit.collider.tag == "plant")
             {
                 range = 0;
+                Debug.Log("plant hit");
             }
             else if (hit.collider.tag == "wall")
             {
@@ -50,7 +52,7 @@ public class SunController : MonoBehaviour
         }
         else
         {
-            //Debug.DrawRay(start, dir, Color.red, 100);
+            Debug.DrawRay(start, dir, Color.red, 100);
         }
     }
 
