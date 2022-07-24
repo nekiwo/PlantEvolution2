@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PlantClass;
 
 public class Main : MonoBehaviour
 {
@@ -8,20 +9,21 @@ public class Main : MonoBehaviour
     public static readonly int RayCount = 150;
     public static readonly float RayRange = 40;
     public static readonly int MaxBounces = 25;
+    public static readonly int StartBranchCount = 3;
 
     // Refs
-    public GameObject seed;
-    public GameObject sun;
+    public GameObject Seed;
+    public GameObject Sun;
 
     // Plant data
-    public PlantController.PlantTree plant;
+    private PlantTree plant;
 
     private void Awake()
     {
-        plant = new PlantController.PlantTree(seed.transform.position, 100);
-        plant.root.branches.Add(new PlantController.Branch(plant.root.end, 75));
-        plant.root.branches.Add(new PlantController.Branch(plant.root.end, 115));
-        seed.GetComponent<PlantController>().RenderPlant(plant);
+        plant = new PlantTree(Seed.transform.position, Random.Range(45, 135));
+        plant.GenPlant();
+        
+        Seed.GetComponent<PlantController>().RenderPlant(plant);
     }
 
     private bool sunStarted = false;
@@ -30,7 +32,7 @@ public class Main : MonoBehaviour
         if (!sunStarted) 
         {
             sunStarted = true;
-            sun.GetComponent<SunController>().RayTrace();
+            Sun.GetComponent<SunController>().RayTrace();
         }
     }
 }
