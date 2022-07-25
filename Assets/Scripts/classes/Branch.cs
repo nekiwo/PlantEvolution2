@@ -6,15 +6,15 @@ namespace BranchClass
 {
     public class Branch
     {
-        public Vector2 start;
-        public Vector2 end;
-        public List<Branch> branches;
+        public Vector2 Start;
+        public Vector2 End;
+        public List<Branch> Branches;
 
         public Branch(Vector2 start, float deg)
         {
-            this.start = start;
-            this.end = start + this.DegToVector(deg, 1);
-            this.branches = new List<Branch>();
+            this.Start = start;
+            this.End = start + this.DegToVector(deg, 1);
+            this.Branches = new List<Branch>();
         }
 
         public Vector2 DegToVector(float deg, float mag)

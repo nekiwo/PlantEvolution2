@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PlantClass;
+using StatsGridClass;
 
 public class Main : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class Main : MonoBehaviour
 
     // Plant data
     private PlantTree plant;
+    private StatsGrid grid = new StatsGrid();
 
     private void Awake()
     {

@@ -256,8 +256,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7ae89afd1385be4d8247c2b02e29946, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seed: {fileID: 1949133524}
-  sun: {fileID: 922702484}
+  Seed: {fileID: 1949133524}
+  Sun: {fileID: 922702484}
 --- !u!1 &565164131
 GameObject:
   m_ObjectHideFlags: 0
