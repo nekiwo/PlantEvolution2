@@ -8,6 +8,7 @@ namespace BranchClass
     {
         public Vector2 Start;
         public Vector2 End;
+        public Branch Parent;
         public List<Branch> Branches;
 
         public Branch(Vector2 start, float deg)

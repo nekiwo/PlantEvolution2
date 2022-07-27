@@ -18,7 +18,6 @@ public class Main : MonoBehaviour
 
     // Plant data
     private PlantTree plant;
-    private StatsGrid grid = new StatsGrid();
 
     private void Awake()
     {
