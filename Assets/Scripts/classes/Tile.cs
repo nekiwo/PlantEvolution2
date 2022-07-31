@@ -13,8 +13,8 @@ namespace TileClass
 
         public Tile()
         {
-            this.Deg = Random.Range(0, 360);
-            this.BranchDeg = Random.Range(0, 360);
+            this.Deg = Random.Range(0f, 360f);
+            this.BranchDeg = Random.Range(0f, 360f);
             this.Preferability = Random.value;
             this.Branching = Random.value;
         }

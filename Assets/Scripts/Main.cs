@@ -21,7 +21,7 @@ public class Main : MonoBehaviour
 
     private void Awake()
     {
-        plant = new PlantTree(Seed.transform.position, Random.Range(45, 135));
+        plant = new PlantTree(Seed.transform.position, Random.Range(45f, 135f));
         plant.GenPlant();
         
         Seed.GetComponent<PlantController>().RenderPlant(plant);

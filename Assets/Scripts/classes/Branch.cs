@@ -11,10 +11,11 @@ namespace BranchClass
         public Branch Parent;
         public List<Branch> Branches;
 
-        public Branch(Vector2 start, float deg)
+        public Branch(Vector2 start, float deg, Branch parent = null)
         {
             this.Start = start;
             this.End = start + this.DegToVector(deg, 1);
+            this.Parent = parent;
             this.Branches = new List<Branch>();
         }
 

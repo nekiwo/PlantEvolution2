@@ -35,7 +35,7 @@ namespace PlantClass
              * * if random hits, choose tile
              * * else, the random for next most preferred tile (repeat until done)
              * 
-             * - check if tile has multiple tips, then choose one tip at random
+             * * check if tile has multiple tips, then choose one tip at random
              * 
              * - if random hits branching, make new branch on previous branch (use stats of previous tile for deg)
              * - else, make new branch on top of current tip
@@ -55,7 +55,7 @@ namespace PlantClass
                 tiles.Add(this.Grid.Tiles[(int)rounded.x, (int)rounded.y]);
             }
 
-            tiles.Sort(delegate(Tile t1, Tile t2)
+            tiles.Sort(delegate (Tile t1, Tile t2)
             {
                 return t1.Preferability.CompareTo(t2.Preferability);
             });
@@ -81,7 +81,37 @@ namespace PlantClass
             }
             chooseTile(tiles.Count - 1);
 
+            List<Branch> conflictingTips = new List<Branch>();
+            foreach (Branch tip in tips)
+            {
+                Vector2 rounded = new Vector2(
+                    Mathf.Round(tip.Start.x) + 10,
+                    Mathf.Round(tip.Start.y) + 10
+                );
 
+                if (this.Grid.Tiles[(int)rounded.x, (int)rounded.y] == chosenTile)
+                {
+                    conflictingTips.Add(tip);
+                }
+            }
+            Branch chosenTip = conflictingTips[Random.Range(0, conflictingTips.Count)];
+            tips.Remove(chosenTip);
+
+            if (chosenTip.Parent != null)
+            {
+                if (Random.value > chosenTile.Branching)
+                {
+                    chosenTip.Branches.Add(new Branch(chosenTip.End, chosenTile.Deg, chosenTip));
+                    tips.Add(chosenTip.Branches[0]);
+                } else
+                {
+
+                }
+            } else
+            {
+                chosenTip.Branches.Add(new Branch(chosenTip.End, chosenTile.Deg, chosenTip));
+                tips.Add(chosenTip.Branches[0]);
+            }
 
             remBranches--;
             if (remBranches > 0)
