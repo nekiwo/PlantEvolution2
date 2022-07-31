@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class SunController : MonoBehaviour
 {
-    public void RayTrace() 
+    private int hits = 0;
+
+    public int RayTrace() 
     {
+        hits = 0;
+
         for (float deg = 0; deg < 360; deg += 360 / Main.RayCount) {
             float rayRange = Main.RayRange;
 
@@ -16,6 +20,8 @@ public class SunController : MonoBehaviour
 
             ShootRay(transform.position, target, rayRange, null, 0);
         }
+
+        return hits;
     }
 
     private void ShootRay(Vector2 start, Vector2 dir, float range, GameObject ignoreWall, int bounces)
@@ -34,7 +40,7 @@ public class SunController : MonoBehaviour
             if (hit.collider.tag == "plant")
             {
                 range = 0;
-                Debug.Log("plant hit");
+                hits++;
             }
             else if (hit.collider.tag == "wall")
             {

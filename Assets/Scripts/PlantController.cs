@@ -32,4 +32,15 @@ public class PlantController : MonoBehaviour
             RenderBranch(branch);
         });
     }
+
+    public void RemovePlant()
+    {
+        foreach (GameObject branch in GameObject.FindGameObjectsWithTag("plant"))
+        {
+            if (branch != BranchTemplate)
+            {
+                Destroy(branch);
+            }
+        }
+    }
 }

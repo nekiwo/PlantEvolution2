@@ -22,6 +22,14 @@ namespace StatsGridClass
             }
         }
 
+        public void Randomize()
+        {
+            for (int i = 0; i < 400; i++)
+            {
+                this.Tiles[i / 20, i % 20].Randomize();
+            }
+        }
+
         public void Render(int type)
         {
             switch (type)

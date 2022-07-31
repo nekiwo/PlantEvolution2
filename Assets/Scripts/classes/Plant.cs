@@ -11,6 +11,7 @@ namespace PlantClass
     {
         public Branch Root;
         public StatsGrid Grid;
+        public int Hits;
 
         public PlantTree(Vector2 start, float deg)
         {
@@ -27,23 +28,6 @@ namespace PlantClass
 
         public void GenBranch(List<Branch> tips, int remBranches)
         {
-            /* TODO:
-             * 
-             * * figure out tiles of all tips
-             * * sort tiles by most preferability
-             * 
-             * * if random hits, choose tile
-             * * else, the random for next most preferred tile (repeat until done)
-             * 
-             * * check if tile has multiple tips, then choose one tip at random
-             * 
-             * * if random hits branching, make new branch on previous branch (use stats of previous tile for deg)
-             * * else, make new branch on top of current tip
-             * 
-             * - NOTE: update tips list and the plant object!!
-             * 
-             */
-
             List<Tile> tiles = new List<Tile>();
             foreach (Branch tip in tips)
             {
