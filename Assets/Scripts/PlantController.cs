@@ -7,7 +7,7 @@ using BranchClass;
 public class PlantController : MonoBehaviour
 {
     public GameObject BranchTemplate;
-    public GameObject sun;
+    public GameObject Sun;
 
     public void RenderPlant(PlantTree plant)
     {

@@ -11,6 +11,7 @@ public class Main : MonoBehaviour
     public static readonly float RayRange = 40;
     public static readonly int MaxBounces = 25;
     public static readonly int StartBranchCount = 4;
+    public static readonly int PlantCount = 1;
 
     // Refs
     public GameObject Seed;
@@ -19,20 +20,22 @@ public class Main : MonoBehaviour
     // Plant data
     private PlantTree plant;
 
-    private void Awake()
+    private void Start()
     {
-        plant = new PlantTree(Seed.transform.position, Random.Range(45f, 135f));
-        plant.GenPlant();
-        
-        Seed.GetComponent<PlantController>().RenderPlant(plant);
+        StartCoroutine(startSimulation());
     }
 
-    private bool sunStarted = false;
-    private void Update()
+    private IEnumerator startSimulation()
     {
-        if (!sunStarted) 
+        for (int i = 0; i < PlantCount; i++)
         {
-            sunStarted = true;
+            plant = new PlantTree(Seed.transform.position, Random.Range(45f, 135f));
+            plant.GenPlant();
+
+            Seed.GetComponent<PlantController>().RenderPlant(plant);
+
+            yield return 0;
+
             Sun.GetComponent<SunController>().RayTrace();
         }
     }

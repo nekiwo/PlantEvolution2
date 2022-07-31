@@ -1008,7 +1008,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BranchTemplate: {fileID: 1981303065}
-  sun: {fileID: 922702484}
+  Sun: {fileID: 922702484}
 --- !u!1 &1981303065
 GameObject:
   m_ObjectHideFlags: 0
