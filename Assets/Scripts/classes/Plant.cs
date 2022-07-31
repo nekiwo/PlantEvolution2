@@ -22,7 +22,7 @@ namespace PlantClass
         {
             List<Branch> branchTips = new List<Branch>();
             branchTips.Add(this.Root);
-            GenBranch(branchTips, Main.StartBranchCount);
+            GenBranch(branchTips, Main.StartBranchCount - 1);
         }
 
         public void GenBranch(List<Branch> tips, int remBranches)
@@ -37,8 +37,8 @@ namespace PlantClass
              * 
              * * check if tile has multiple tips, then choose one tip at random
              * 
-             * - if random hits branching, make new branch on previous branch (use stats of previous tile for deg)
-             * - else, make new branch on top of current tip
+             * * if random hits branching, make new branch on previous branch (use stats of previous tile for deg)
+             * * else, make new branch on top of current tip
              * 
              * - NOTE: update tips list and the plant object!!
              * 
@@ -59,7 +59,6 @@ namespace PlantClass
             {
                 return t1.Preferability.CompareTo(t2.Preferability);
             });
-            Debug.Log(tiles);
 
             Tile chosenTile;
             void chooseTile(int i)
@@ -95,22 +94,34 @@ namespace PlantClass
                 }
             }
             Branch chosenTip = conflictingTips[Random.Range(0, conflictingTips.Count)];
-            tips.Remove(chosenTip);
 
-            if (chosenTip.Parent != null)
-            {
-                if (Random.value > chosenTile.Branching)
-                {
-                    chosenTip.Branches.Add(new Branch(chosenTip.End, chosenTile.Deg, chosenTip));
-                    tips.Add(chosenTip.Branches[0]);
-                } else
-                {
-
-                }
-            } else
+            void continueBranch()
             {
                 chosenTip.Branches.Add(new Branch(chosenTip.End, chosenTile.Deg, chosenTip));
                 tips.Add(chosenTip.Branches[0]);
+                tips.Remove(chosenTip);
+            }
+
+            if (chosenTip.Parent != null)
+            {
+                if (Random.value < chosenTile.Branching)
+                {
+                    Vector2 rounded = new Vector2(
+                        Mathf.Round(chosenTip.Parent.Start.x) + 10,
+                        Mathf.Round(chosenTip.Parent.Start.y) + 10
+                    );
+
+                    float branchDeg = this.Grid.Tiles[(int)rounded.x, (int)rounded.y].BranchDeg;
+                    Branch newBranch = new Branch(chosenTip.Parent.End, branchDeg, chosenTip.Parent);
+                    chosenTip.Parent.Branches.Add(newBranch);
+                    tips.Add(chosenTip.Parent.Branches[chosenTip.Parent.Branches.Count - 1]);
+                } else
+                {
+                    continueBranch();
+                }
+            } else
+            {
+                continueBranch();
             }
 
             remBranches--;

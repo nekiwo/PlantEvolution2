@@ -16,7 +16,10 @@ namespace StatsGridClass
 
         public StatsGrid()
         {
-            
+            for (var i = 0; i < 400; i++)
+            {
+                this.Tiles[i / 20, i % 20] = new Tile();
+            }
         }
 
         public void Render(int type)

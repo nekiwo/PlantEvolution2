@@ -10,7 +10,7 @@ public class Main : MonoBehaviour
     public static readonly int RayCount = 150;
     public static readonly float RayRange = 40;
     public static readonly int MaxBounces = 25;
-    public static readonly int StartBranchCount = 3;
+    public static readonly int StartBranchCount = 4;
 
     // Refs
     public GameObject Seed;
