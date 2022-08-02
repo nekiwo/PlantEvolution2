@@ -25,7 +25,7 @@ public class PlantController : MonoBehaviour
             )
         );
 
-        Debug.DrawLine(main.Start, main.End, Color.green, 100);
+        //Debug.DrawLine(main.Start, main.End, Color.green, Time.deltaTime);
 
         main.Branches.ForEach(delegate (Branch branch)
         {

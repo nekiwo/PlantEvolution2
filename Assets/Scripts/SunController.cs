@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class SunController : MonoBehaviour
 {
-    private int hits = 0;
+    private float hits = 0;
 
-    public int RayTrace() 
+    public float RayTrace() 
     {
         hits = 0;
 
@@ -34,13 +34,12 @@ public class SunController : MonoBehaviour
 
         if (hit.collider != null)
         {
-            Debug.DrawRay(start, hit.point - start, Color.yellow, 100);
-            //Debug.DrawRay(hit.point, hit.normal, Color.blue, 100);
+            //Debug.DrawRay(start, hit.point - start, Color.yellow, Time.deltaTime);
 
             if (hit.collider.tag == "plant")
             {
+                hits += range;
                 range = 0;
-                hits++;
             }
             else if (hit.collider.tag == "wall")
             {
@@ -58,7 +57,7 @@ public class SunController : MonoBehaviour
         }
         else
         {
-            Debug.DrawRay(start, dir, Color.red, 100);
+            //Debug.DrawRay(start, dir, Color.red, Time.deltaTime);
         }
     }
 

@@ -19,6 +19,14 @@ namespace BranchClass
             this.Branches = new List<Branch>();
         }
 
+        public Branch(Vector2 start, Vector2 end, Branch parent = null)
+        {
+            this.Start = start;
+            this.End = end;
+            this.Parent = parent;
+            this.Branches = new List<Branch>();
+        }
+
         public Vector2 DegToVector(float deg, float mag)
         {
             return new Vector2(Mathf.Cos(deg * Mathf.Deg2Rad), Mathf.Sin(deg * Mathf.Deg2Rad)) * mag;

@@ -7,7 +7,7 @@ namespace StatsGridClass
 {
     public class StatsGrid
     {
-        public Tile[,] Tiles = new Tile[20, 20];
+        public Tile[,] Tiles = new Tile[20, 30];
 
         public const int Deg = 0;
         public const int BranchDeg = 1;
@@ -16,17 +16,17 @@ namespace StatsGridClass
 
         public StatsGrid()
         {
-            for (var i = 0; i < 400; i++)
+            for (var i = 0; i < 600; i++)
             {
-                this.Tiles[i / 20, i % 20] = new Tile();
+                this.Tiles[i / 30, i % 30] = new Tile();
             }
         }
 
         public void Randomize()
         {
-            for (int i = 0; i < 400; i++)
+            for (int i = 0; i < 600; i++)
             {
-                this.Tiles[i / 20, i % 20].Randomize();
+                this.Tiles[i / 30, i % 30].Randomize();
             }
         }
 

@@ -11,7 +11,7 @@ namespace PlantClass
     {
         public Branch Root;
         public StatsGrid Grid;
-        public int Hits;
+        public float Hits;
 
         public PlantTree(Vector2 start, float deg)
         {
@@ -19,11 +19,18 @@ namespace PlantClass
             this.Grid = new StatsGrid();
         }
 
-        public void GenPlant()
+        public PlantTree(Vector2 start, Vector2 end)
         {
+            this.Root = new Branch(start, end);
+            this.Grid = new StatsGrid();
+        }
+
+        public void GenPlant(int branchCount)
+        {
+            this.Root.Branches.Clear();
             List<Branch> branchTips = new List<Branch>();
             branchTips.Add(this.Root);
-            GenBranch(branchTips, Main.StartBranchCount - 1);
+            GenBranch(branchTips, (branchCount - 1));
         }
 
         public void GenBranch(List<Branch> tips, int remBranches)
@@ -88,7 +95,7 @@ namespace PlantClass
 
             if (chosenTip.Parent != null)
             {
-                if (Random.value < chosenTile.Branching)
+                if (Random.value < chosenTile.Branching && chosenTip.Parent.Branches.Count < 2)
                 {
                     Vector2 rounded = new Vector2(
                         Mathf.Round(chosenTip.Parent.Start.x) + 10,
@@ -113,6 +120,19 @@ namespace PlantClass
             {
                 GenBranch(tips, remBranches);
             }
+        }
+
+        public PlantTree Dublicate()
+        {
+            PlantTree dublicate = new PlantTree(this.Root.Start, this.Root.End);
+
+            dublicate.Root = this.Root;
+            dublicate.Grid = this.Grid;
+            dublicate.Hits = this.Hits;
+
+            //dublicate.Grid.Randomize();
+
+            return dublicate;
         }
     }
 }
