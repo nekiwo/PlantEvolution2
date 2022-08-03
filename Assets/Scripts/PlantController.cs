@@ -11,10 +11,10 @@ public class PlantController : MonoBehaviour
 
     public void RenderPlant(PlantTree plant)
     {
-        RenderBranch(plant.Root);
+        renderBranch(plant.Root);
     }
 
-    private void RenderBranch(Branch main)
+    private void renderBranch(Branch main)
     {
         GameObject branchCopy = GameObject.Instantiate(BranchTemplate);
         branchCopy.transform.position = main.Start + (main.End - main.Start) / 2;
@@ -29,7 +29,7 @@ public class PlantController : MonoBehaviour
 
         main.Branches.ForEach(delegate (Branch branch)
         {
-            RenderBranch(branch);
+            renderBranch(branch);
         });
     }
 

@@ -9,17 +9,16 @@ using System.Linq;
 public class Main : MonoBehaviour
 {
     // Plant Config
-    public static readonly int PlantCount = 250;
-    public static readonly int StartBranchCount = 4;
+    public static readonly int PlantCount = 100;
     public static readonly int RayCount = 180;
     public static readonly float RayRange = 100;
     public static readonly int MaxBounces = 15;
 
     // Evolution Config
-    public static readonly int SelectCount = 100;
+    public static readonly int SelectCount = 30;
     public static readonly int CycleCount = 1000;
     public static readonly float MutationValue = 0.03f;
-    public static readonly float BranchCost = 55;
+    public static readonly float BranchCost = 75;
 
     // Refs
     public GameObject Seed;
@@ -32,52 +31,61 @@ public class Main : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < PlantCount; i++)
+        for (int p = 0; p < PlantCount; p++)
         {
             PlantTree plant = new PlantTree(Seed.transform.position, Random.Range(45f, 135f));
-            plant.Hits = StartBranchCount * BranchCost;
             plants.Add(plant);
         }
 
-        StartCoroutine(startSimulation());
+        StartCoroutine(startSim());
     }
 
-    private IEnumerator startSimulation()
+    private IEnumerator startSim()
     {
         for (int c = 0; c < CycleCount; c++)
         {
             for (int p = 0; p < PlantCount; p++)
             {
-                plants[p].GenPlant((int)Mathf.Round(plants[p].Hits / BranchCost));
-                Seed.GetComponent<PlantController>().RenderPlant(plants[p]);
-                yield return 0;
-                plants[p].Hits = Sun.GetComponent<SunController>().RayTrace();
-                Seed.GetComponent<PlantController>().RemovePlant();
+                plants[p].Root.Branches.Clear();
+                plants[p].BranchCount = 1;
+                List<Branch> tips = new List<Branch>();
+                tips.Add(plants[p].Root);
+
+                yield return genBranch();
+                IEnumerator genBranch()
+                {
+                    plants[p].GenBranch(tips);
+
+                    Seed.GetComponent<PlantController>().RenderPlant(plants[p]);
+                    yield return new WaitForSeconds(0.05f);
+                    plants[p].Hits = Sun.GetComponent<SunController>().RayTrace();
+                    if (plants[p].Hits == 0)
+                    {
+                        Debug.Log(plants[p].Hits.ToString() + " / " + Main.BranchCost.ToString() + " = " + (plants[p].Hits / Main.BranchCost).ToString() + " >= " + plants[p].BranchCount);
+
+                        yield return new WaitForSeconds(2);
+                    }
+                    Seed.GetComponent<PlantController>().RemovePlant();
+
+                    plants[p].BranchCount++;
+
+                    if (plants[p].Hits / Main.BranchCost >= plants[p].BranchCount)
+                    {
+                        yield return genBranch();
+                        Debug.Log("lived");
+                    }
+                    else
+                    {
+                        Debug.Log("died");
+                    }
+                }
             }
 
-            /*
-             * Todo:
-             * 
-             * * sort array by hits
-             * * remove bottom X# plants
-             * * dublictate top plants until PlantCount is reached
-             * * randomize all tiles of plant grids by X%
-             * * add branches depending on hits
-             * 
-             */
-
-            plants = plants.OrderBy(p => p.Hits).ToList();
+            plants = plants.OrderBy(p => p.BranchCount).ToList();
             plants.Reverse();
 
-            /*string test = "";
-            for (int p = 0; p < PlantCount; p++)
-            {
-                test = test + plants[p].Hits.ToString() + ", ";
-            }
-            Debug.Log(test);*/
-
-            maxBranches.Add((int)Mathf.Round(plants[0].Hits / BranchCost));
-            avgBranches.Add((float)plants.Select(p => p.Hits / BranchCost).Average());
+            maxBranches.Add(plants[0].BranchCount);
+            avgBranches.Add((float)plants.Select(p => p.BranchCount).Average());
             if (maxBranches.Count > 1)
             {
                 Debug.DrawLine(

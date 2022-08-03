@@ -34,7 +34,7 @@ public class SunController : MonoBehaviour
 
         if (hit.collider != null)
         {
-            //Debug.DrawRay(start, hit.point - start, Color.yellow, Time.deltaTime);
+            Debug.DrawRay(start, hit.point - start, Color.yellow, Time.deltaTime);
 
             if (hit.collider.tag == "plant")
             {
@@ -57,7 +57,7 @@ public class SunController : MonoBehaviour
         }
         else
         {
-            //Debug.DrawRay(start, dir, Color.red, Time.deltaTime);
+            Debug.DrawRay(start, dir, Color.red, Time.deltaTime);
         }
     }
 

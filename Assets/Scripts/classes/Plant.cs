@@ -11,7 +11,8 @@ namespace PlantClass
     {
         public Branch Root;
         public StatsGrid Grid;
-        public float Hits;
+        public float Hits = 0;
+        public int BranchCount = 1;
 
         public PlantTree(Vector2 start, float deg)
         {
@@ -25,15 +26,7 @@ namespace PlantClass
             this.Grid = new StatsGrid();
         }
 
-        public void GenPlant(int branchCount)
-        {
-            this.Root.Branches.Clear();
-            List<Branch> branchTips = new List<Branch>();
-            branchTips.Add(this.Root);
-            GenBranch(branchTips, (branchCount - 1));
-        }
-
-        public void GenBranch(List<Branch> tips, int remBranches)
+        public void GenBranch(List<Branch> tips)
         {
             List<Tile> tiles = new List<Tile>();
             foreach (Branch tip in tips)
@@ -43,7 +36,7 @@ namespace PlantClass
                     Mathf.Round(tip.Start.y) + 10
                 );
 
-                tiles.Add(this.Grid.Tiles[(int)rounded.x, (int)rounded.y]);
+                tiles.Add(this.Grid.Tiles[(int)rounded.x % 20, (int)rounded.y % 30]);
             }
 
             tiles.Sort(delegate (Tile t1, Tile t2)
@@ -57,13 +50,15 @@ namespace PlantClass
                 if (Random.value < tiles[i].Preferability)
                 {
                     chosenTile = tiles[i];
-                } else
+                }
+                else
                 {
                     i--;
                     if (i < 0)
                     {
                         chosenTile = tiles[0];
-                    } else
+                    }
+                    else
                     {
                         chooseTile(i);
                     }
@@ -79,7 +74,7 @@ namespace PlantClass
                     Mathf.Round(tip.Start.y) + 10
                 );
 
-                if (this.Grid.Tiles[(int)rounded.x, (int)rounded.y] == chosenTile)
+                if (this.Grid.Tiles[(int)rounded.x % 20, (int)rounded.y % 30] == chosenTile)
                 {
                     conflictingTips.Add(tip);
                 }
@@ -102,23 +97,19 @@ namespace PlantClass
                         Mathf.Round(chosenTip.Parent.Start.y) + 10
                     );
 
-                    float branchDeg = this.Grid.Tiles[(int)rounded.x, (int)rounded.y].BranchDeg;
+                    float branchDeg = this.Grid.Tiles[(int)rounded.x % 20, (int)rounded.y % 30].BranchDeg;
                     Branch newBranch = new Branch(chosenTip.Parent.End, branchDeg, chosenTip.Parent);
                     chosenTip.Parent.Branches.Add(newBranch);
                     tips.Add(chosenTip.Parent.Branches[chosenTip.Parent.Branches.Count - 1]);
-                } else
+                }
+                else
                 {
                     continueBranch();
                 }
-            } else
+            }
+            else
             {
                 continueBranch();
-            }
-
-            remBranches--;
-            if (remBranches > 0)
-            {
-                GenBranch(tips, remBranches);
             }
         }
 
