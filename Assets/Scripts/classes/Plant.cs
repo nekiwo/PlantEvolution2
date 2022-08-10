@@ -26,7 +26,7 @@ namespace PlantClass
             this.Grid = new StatsGrid();
         }
 
-        public void GenBranch(List<Branch> tips)
+        public Branch GenBranch(List<Branch> tips)
         {
             List<Tile> tiles = new List<Tile>();
             foreach (Branch tip in tips)
@@ -81,11 +81,14 @@ namespace PlantClass
             }
             Branch chosenTip = conflictingTips[Random.Range(0, conflictingTips.Count)];
 
-            void continueBranch()
+            Branch continueBranch()
             {
-                chosenTip.Branches.Add(new Branch(chosenTip.End, chosenTile.Deg, chosenTip));
-                tips.Add(chosenTip.Branches[0]);
+                Branch newBranch = new Branch(chosenTip.End, chosenTile.Deg, chosenTip);
+                chosenTip.Branches.Add(newBranch);
+                tips.Add(newBranch);
                 tips.Remove(chosenTip);
+
+                return newBranch;
             }
 
             if (chosenTip.Parent != null)
@@ -101,15 +104,17 @@ namespace PlantClass
                     Branch newBranch = new Branch(chosenTip.Parent.End, branchDeg, chosenTip.Parent);
                     chosenTip.Parent.Branches.Add(newBranch);
                     tips.Add(chosenTip.Parent.Branches[chosenTip.Parent.Branches.Count - 1]);
+
+                    return newBranch;
                 }
                 else
                 {
-                    continueBranch();
+                    return continueBranch();
                 }
             }
             else
             {
-                continueBranch();
+                return continueBranch();
             }
         }
 

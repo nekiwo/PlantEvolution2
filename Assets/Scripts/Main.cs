@@ -9,16 +9,16 @@ using System.Linq;
 public class Main : MonoBehaviour
 {
     // Plant Config
-    public static readonly int PlantCount = 100;
+    public static readonly int PlantCount = 50;
     public static readonly int RayCount = 180;
     public static readonly float RayRange = 100;
     public static readonly int MaxBounces = 15;
 
     // Evolution Config
-    public static readonly int SelectCount = 30;
+    public static readonly int SelectCount = 15;
     public static readonly int CycleCount = 1000;
     public static readonly float MutationValue = 0.03f;
-    public static readonly float BranchCost = 75;
+    public static readonly float BranchCost = 90;
 
     // Refs
     public GameObject Seed;
@@ -50,13 +50,14 @@ public class Main : MonoBehaviour
                 plants[p].BranchCount = 1;
                 List<Branch> tips = new List<Branch>();
                 tips.Add(plants[p].Root);
+                Seed.GetComponent<PlantController>().RenderPlant(plants[p].Root, false);
 
                 yield return genBranch();
                 IEnumerator genBranch()
                 {
-                    plants[p].GenBranch(tips);
+                    Branch newBranch = plants[p].GenBranch(tips);
 
-                    Seed.GetComponent<PlantController>().RenderPlant(plants[p]);
+                    Seed.GetComponent<PlantController>().RenderPlant(newBranch, true);
                     yield return new WaitForSeconds(0.05f);
                     plants[p].Hits = Sun.GetComponent<SunController>().RayTrace();
                     if (plants[p].Hits == 0)
@@ -65,7 +66,6 @@ public class Main : MonoBehaviour
 
                         yield return new WaitForSeconds(2);
                     }
-                    Seed.GetComponent<PlantController>().RemovePlant();
 
                     plants[p].BranchCount++;
 
@@ -79,6 +79,8 @@ public class Main : MonoBehaviour
                         Debug.Log("died");
                     }
                 }
+
+                Seed.GetComponent<PlantController>().RemovePlant();
             }
 
             plants = plants.OrderBy(p => p.BranchCount).ToList();
